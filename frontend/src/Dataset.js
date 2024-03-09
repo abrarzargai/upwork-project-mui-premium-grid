@@ -21,7 +21,7 @@ export default function AggregationFiltering() {
 
   useEffect(() => {
     search();
-  }, [skip, limit,search]);
+  }, [skip, limit]);
 
   const onFilterModelChange = (e) => search(e?.items || []);
   const onPaginationModelChange = (e) => {
@@ -84,7 +84,7 @@ const getDetailPanelContent = ({row={}}) => {
 var apiCall = async (payload) => {
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/dataset/search",
+      "http://138.201.127.162:8080/api/dataset/search",
       payload
     );
     console.log("response :", response);
