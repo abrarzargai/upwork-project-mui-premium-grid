@@ -52,15 +52,16 @@ export default function AggregationFiltering() {
             },
           },
           filter: {
-            filterModel: {
-              items: [{ field: "title", operator: "equals", value: "Titanic" }],
-            },
+            // filterModel: {
+            //    items: [
+            //     { field: "creation_date", operator: "equals", value: new Date() }],
+            // },
           },
         }}
         slots={{ toolbar: GridToolbar }}
         filterMode="server"
         onFilterModelChange={onFilterModelChange}
-        aggregationRowsScope="all"
+         aggregationRowsScope="all"
       />
     </div>
   );
@@ -77,6 +78,12 @@ const getDetailPanelContent = ({row={}}) => {
       <div>social_links: {row?.social_links || ''}</div>
       <div>subscribers: {row?.subscribers || ''}</div>
       <div>tags: {row?.tags}</div>
+      <div>creation_date: {row?.creation_date}</div>
+      <div>total_views: {row?.total_views}</div>
+      <div>email: {row?.email}</div>
+      <div>monetization: {row?.monetization}</div>
+      <div>location: {row?.location}</div>
+      <div>description: {row?.description}</div>
 
     </>
   );
@@ -85,6 +92,7 @@ var apiCall = async (payload) => {
   try {
     const response = await axios.post(
       "http://138.201.127.162:8080/api/dataset/search",
+      // "http://localhost:8080/api/dataset/search",
       payload
     );
     console.log("response :", response);
@@ -97,33 +105,86 @@ var apiCall = async (payload) => {
 
 var COLUMNS = [
   {
-    headerName: "channel_name",
+    headerName: "Channel Name",
     field: "channel_name",
     width: 200,
     groupable: false,
   },
   {
-    headerName: "creation_date",
+    headerName: "Creation Date",
     field: "creation_date",
     width: 200,
     groupable: false,
+    type: 'Date',
+
   },
   {
-    headerName: "total_views",
+    headerName: "Total Views",
     field: "total_views",
     width: 200,
     groupable: false,
+    type: 'number',
+
   },
   {
-    headerName: "business_email",
+    headerName: "Business Email",
     field: "business_email",
     width: 200,
     groupable: false,
   },
   {
-    headerName: "channel_link",
+    headerName: "Channel Link",
     field: "channel_link",
     width: 400,
     groupable: false,
   },
+  {
+    headerName: "Social Link",
+    field: "social_links",
+    width: 200,
+    groupable: false,
+  },
+  {
+    headerName: "Email",
+    field: "email",
+    width: 200,
+    groupable: false,
+  },
+  {
+    headerName: "Subscribers",
+    field: "subscribers",
+    width: 200,
+    groupable: false,
+  },
+  {
+    headerName: "Monetization",
+    field: "monetization",
+    width: 200,
+    groupable: false,
+  },
+  {
+    headerName: "location",
+    field: "location",
+    width: 200,
+    groupable: false,
+  },
+  {
+    headerName: "Old Id",
+    field: "oldid",
+    width: 200,
+    groupable: false,
+  },
+  {
+    headerName: "Tags",
+    field: "Tags",
+    width: 200,
+    groupable: false,
+  },
+  {
+    headerName: "description",
+    field: "description",
+    width: 200,
+    groupable: false,
+  }
+  
 ];

@@ -19,6 +19,7 @@ route.post("/search", async (req, res, next) => {
     const { filter = [], skip = 0, limit = 5 } = req.body;
     const payload = payloadHandler(filter);
     console.log("payload ==>", payload);
+    console.log("filter ==>", filter);
     const [records = [], count = 0] = await Promise.all([
       // collection.find(payload).skip(skip).limit(limit),
       collection.aggregate([
