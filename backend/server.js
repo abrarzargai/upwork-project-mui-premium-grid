@@ -14,7 +14,8 @@ const database = 'mongodb://138.201.127.162:27017/data'
 mongoose.connect(database, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useUnifiedTopology:true,
 }).then(con => {
     console.log('=====>>DB connection Successfully!');
     // Start the server

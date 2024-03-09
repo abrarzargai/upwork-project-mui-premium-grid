@@ -21,7 +21,7 @@ export default function AggregationFiltering() {
 
   useEffect(() => {
     search();
-  }, [skip, limit]);
+  }, [skip, limit,search]);
 
   const onFilterModelChange = (e) => search(e?.items || []);
   const onPaginationModelChange = (e) => {

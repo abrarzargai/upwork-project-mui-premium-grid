@@ -22,11 +22,11 @@ route.post("/search", async (req, res, next) => {
     const [records = [], count = 0] = await Promise.all([
       // collection.find(payload).skip(skip).limit(limit),
       collection.aggregate([
-        { $match: payload },  // Your match conditions go here
+        { $match: payload },  
         { $skip: skip },
         { $limit: limit }
       ]),
-      collection.count(payload),
+      collection.countDocuments(payload),
     ]);
 
     return res.status(200).json({ success: true, records, count });
