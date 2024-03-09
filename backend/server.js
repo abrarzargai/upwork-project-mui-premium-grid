@@ -1,8 +1,4 @@
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-dotenv.config({
-    path: './.env'
-});
 
 process.on('uncaughtException', err => {
     console.log('UNCAUGHT EXCEPTION!!! shutting down...');
@@ -12,7 +8,7 @@ process.on('uncaughtException', err => {
 
 const app = require('./app');
 
-const database = process.env.DATABASE || 'mongodb+srv://abrar:abrar@cluster0.xpldp.mongodb.net/BoilerPlatejs'
+const database = 'mongodb://138.201.127.162:27017/data'
 
 // Connect the database
 mongoose.connect(database, {
@@ -22,7 +18,7 @@ mongoose.connect(database, {
 }).then(con => {
     console.log('=====>>DB connection Successfully!');
     // Start the server
-    const port = process.env.PORT|| 8080;
+    const port = 8080;
     app.listen(port, () => {
         console.log(`
       ################################################
