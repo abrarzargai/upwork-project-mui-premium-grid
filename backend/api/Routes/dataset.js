@@ -14,23 +14,30 @@ route.post("/save", async (req, res, next) => {
   }
 });
 
+route.post("/count", async (req, res, next) => {
+  try {
+    const { filter = []} = req.body;
+    const payload = payloadHandler(filter);
+    const count  = await collection.countDocuments(payload)
+    return res.status(200).json({ success: true, count });
+  } catch (e) {
+    console.log(e);
+    return next(e);
+  }
+});
+
 route.post("/search", async (req, res, next) => {
   try {
     const { filter = [], skip = 0, limit = 5 } = req.body;
     const payload = payloadHandler(filter);
-    console.log("payload ==>", payload);
-    console.log("filter ==>", filter);
-    const [records = [], count = 0] = await Promise.all([
-      // collection.find(payload).skip(skip).limit(limit),
-      collection.aggregate([
-        { $match: payload },  
-        { $skip: skip },
-        { $limit: limit }
-      ]),
-      collection.countDocuments(payload),
+
+    const records = await collection.aggregate([
+      { $match: payload },
+      { $skip: skip },
+      { $limit: limit },
     ]);
 
-    return res.status(200).json({ success: true, records, count });
+    return res.status(200).json({ success: true, records, count: 0 });
   } catch (e) {
     console.log(e);
     return next(e);

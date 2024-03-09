@@ -1,29 +1,39 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { DataGridPremium, GridToolbar } from "@mui/x-data-grid-premium";
+import { findApi, countApi } from "./common/Api";
 
 export default function AggregationFiltering() {
   const [data, setData] = useState([]);
   const [skip, setSkip] = useState(0);
+  const [filter, setFilter] = useState([]);
   const [limit, setLimit] = useState(25);
   const [count, setCount] = useState(20);
   const [loading, setLoading] = useState(false);
 
-  const search = async (filter = []) => {
+  const findRecords = async (payload) => {
     setLoading(true);
-    const payload = { filter, skip, limit };
-    const { records = [], count = 0 } = await apiCall(payload);
+    const { records = [] } = await findApi(payload);
     setData(records);
-    setCount(count);
     setLoading(false);
+  };
 
+  const countRecords = async (payload) => {
+    const { count = 0 } = await countApi(payload);
+    setCount(count);
+  };
+
+  const search = async () => {
+    const payload = { filter, skip, limit };
+    findRecords(payload);
+    countRecords(payload);
   };
 
   useEffect(() => {
     search();
-  }, [skip, limit]);
+  }, [skip, limit, filter]);
 
-  const onFilterModelChange = (e) => search(e?.items || []);
+  const onFilterModelChange = (e) => setFilter(e?.items || []);
+
   const onPaginationModelChange = (e) => {
     const { pageSize, page } = e;
     const skip = pageSize * page;
@@ -61,22 +71,22 @@ export default function AggregationFiltering() {
         slots={{ toolbar: GridToolbar }}
         filterMode="server"
         onFilterModelChange={onFilterModelChange}
-         aggregationRowsScope="all"
+        aggregationRowsScope="all"
       />
     </div>
   );
 }
-const getDetailPanelContent = ({row={}}) => {
+const getDetailPanelContent = ({ row = {} }) => {
   return (
     <>
-      <div>Row ID: {row?._id || ''}</div>
-      <div>business_email: {row?.business_email || ''}</div>
-      <div>channel_link: {row?.channel_link || ''}</div>
-      <div>channel_name: {row?.channel_name || ''}</div>
-      <div>description: {row?.description || ''}</div>
-      <div>monetization: {row?.monetization || ''}</div>
-      <div>social_links: {row?.social_links || ''}</div>
-      <div>subscribers: {row?.subscribers || ''}</div>
+      <div>Row ID: {row?._id || ""}</div>
+      <div>business_email: {row?.business_email || ""}</div>
+      <div>channel_link: {row?.channel_link || ""}</div>
+      <div>channel_name: {row?.channel_name || ""}</div>
+      <div>description: {row?.description || ""}</div>
+      <div>monetization: {row?.monetization || ""}</div>
+      <div>social_links: {row?.social_links || ""}</div>
+      <div>subscribers: {row?.subscribers || ""}</div>
       <div>tags: {row?.tags}</div>
       <div>creation_date: {row?.creation_date}</div>
       <div>total_views: {row?.total_views}</div>
@@ -84,23 +94,8 @@ const getDetailPanelContent = ({row={}}) => {
       <div>monetization: {row?.monetization}</div>
       <div>location: {row?.location}</div>
       <div>description: {row?.description}</div>
-
     </>
   );
-};
-var apiCall = async (payload) => {
-  try {
-    const response = await axios.post(
-      "http://138.201.127.162:8080/api/dataset/search",
-      // "http://localhost:8080/api/dataset/search",
-      payload
-    );
-    console.log("response :", response);
-    return response?.data;
-  } catch (error) {
-    console.log("Catch Error : ", error);
-    return {}
-  }
 };
 
 var COLUMNS = [
@@ -115,16 +110,14 @@ var COLUMNS = [
     field: "creation_date",
     width: 200,
     groupable: false,
-    type: 'Date',
-
+    type: "Date",
   },
   {
     headerName: "Total Views",
     field: "total_views",
     width: 200,
     groupable: false,
-    type: 'number',
-
+    type: "number",
   },
   {
     headerName: "Business Email",
@@ -185,6 +178,5 @@ var COLUMNS = [
     field: "description",
     width: 200,
     groupable: false,
-  }
-  
+  },
 ];
