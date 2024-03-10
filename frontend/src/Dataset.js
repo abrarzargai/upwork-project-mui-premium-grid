@@ -102,7 +102,7 @@ var COLUMNS = [
   { field: 'channel_link', headerName: 'Channel Link',type:'string', width: 150 },
   { field: 'channel_name', headerName: 'Channel Name',type:'string', width: 150 },
   { field: 'creation_date', headerName: 'Creation Date', type:'date',valueFormatter: params => new Date(params?.value).toLocaleString(),width: 150 },
-  { field: 'total_views', headerName: 'Total Views',type:'number', width: 150 },
+  { field: 'total_views', headerName: 'Total Views',type:'number',valueFormatter: params =>parseInt(params.value), width: 150 },
   { field: 'location', headerName: 'Location',type:'string', width: 150 },
   { field: 'business_email', headerName: 'Business Email',type:'string', width: 150 },
   { field: 'email', headerName: 'Email',type:'string', width: 150 },
