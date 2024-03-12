@@ -117,9 +117,9 @@ var operatorHandler = (operator, value) => {
   } else if (operator === "onOrBefore") {
     return { $lte: new Date(value) };
   } else if (operator === "is") {
-    return { $eq: new Date(value) };
+    return { $eq: value };
   } else if (operator === "not") {
-    return { $ne: new Date(value) };
+    return { $ne: value };
   } else {
     return { $regex: new RegExp(value, "i") };
   }
