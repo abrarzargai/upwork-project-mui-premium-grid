@@ -1,6 +1,6 @@
 import axios from "axios";
-// export const APIURL = "http://138.201.127.162:8080";
-export const APIURL = "http://localhost:8080";
+export const APIURL = "http://138.201.127.162:8080";
+// export const APIURL = "http://localhost:8080";
 
 export const findApi = async (payload) => {
   try {
